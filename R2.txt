@@ -1,0 +1,28 @@
+R2
+ena
+conf t
+hostname R2
+
+int gig0/0/0
+ip address 33.33.33.2 255.255.255.248
+ip ospf authentication message-digest
+ip ospf message-digest-key 1 md5 cisco
+no sh
+
+int gig0/0/1
+ip address 33.33.33.13 255.255.255.252
+ip ospf authentication message-digest
+ip ospf message-digest-key 1 md5 cisco
+no sh
+
+router ospf 1
+ router-id 1.1.1.4
+ network 33.33.33.12 0.0.0.3 area 0
+ network 33.33.33.0 0.0.0.7 area 0
+ passive-interface GigabitEthernet0/0/1
+
+enable secret cisco
+line vty 0 4
+ password cisco
+ login
+exit
